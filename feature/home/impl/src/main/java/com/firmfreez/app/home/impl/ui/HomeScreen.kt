@@ -1,5 +1,6 @@
 package com.firmfreez.app.home.impl.ui
 
+import android.content.Intent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
@@ -42,9 +44,17 @@ class HomeScreen : Screen, HomeScreenProvider, ScreenTransition {
         val viewModel = koinViewModel<HomeScreenViewModel>()
         val uiState by viewModel.uiState.collectAsState()
         val resources = LocalResources.current
+        val context = LocalContext.current
 
         val openEpubPicker = rememberEpubPicker(
             onFilePicked = {
+                runCatching {
+                    context.contentResolver.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }
+
                 viewModel.onAction(Action.OnBookPicked(it))
             },
             onPickerUnavailable = {

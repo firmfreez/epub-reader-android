@@ -43,3 +43,5 @@ include(
     ":feature:home:api",
     ":feature:home:impl",
 )
+include(":lib:book-importer:api")
+include(":lib:book-importer:impl")

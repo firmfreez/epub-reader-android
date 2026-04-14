@@ -14,7 +14,9 @@ dependencies {
     api(projects.feature.home.api)
 
     // Libs
+    implementation(projects.lib.di.domain)
     implementation(projects.lib.navigation.api)
+    implementation(projects.lib.bookImporter.api)
 
     // Core
     implementation(projects.core.styleCompose)

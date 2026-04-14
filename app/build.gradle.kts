@@ -70,6 +70,7 @@ dependencies {
 
     // Libs
     implementation(projects.lib.navigation.impl)
+    implementation(projects.lib.bookImporter.impl)
 
     // Features
     implementation(projects.feature.splash.impl)
