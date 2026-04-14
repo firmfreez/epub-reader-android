@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_screen_picker_empty_button_text">Нажми чтобы добавить</string>
-    <string name="home_screen_picker_empty_content_title">Твоя библиотека пока пуста</string>
-    <string name="home_screen_picker_empty_content_message">Добавь первую EPUB-книгу и начни читать</string>
-
     <string name="home_screen_picker_unavailable_error_text">Для выбора на устройстве должен быть файловый менеджер!</string>
+
+    <string name="home_screen_book_empty_title_placeholder">Без названия</string>
+
+    <string name="home_screen_picker_file_not_found_error">Ошибка! Файл не найден</string>
+    <string name="home_screen_picker_file_access_denied_error">Ошибка! Доступ запрещен</string>
+    <string name="home_screen_picker_file_invalid_file_error">Ошибка! Файл поврежден</string>
+    <string name="home_screen_picker_file_unknown_error">Неизвестная ошибка!</string>
+
+    <string name="home_screen_books_title">Мои книги</string>
+    <string name="home_screen_books_add_button">Добавить</string>
+
+    <string name="home_screen_empty_title">Библиотека пуста</string>
+    <string name="home_screen_empty_message">Добавь первую EPUB-книгу и начни читать</string>
+    <string name="home_screen_empty_add_button">Добавить книгу</string>
+
+    <string name="home_screen_books_item_unavailable">Файл недоступен</string>
+
+    <string name="home_screen_books_item_menu_content_description">Открыть меню книги</string>
+    <string name="home_screen_books_item_action_view">Читать</string>
+    <string name="home_screen_books_item_action_delete">Удалить</string>
 </resources>

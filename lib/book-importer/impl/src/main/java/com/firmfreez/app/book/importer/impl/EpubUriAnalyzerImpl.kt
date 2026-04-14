@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import com.firmfreez.app.book.importer.api.EpubUriAnalyzer
 import com.firmfreez.app.book.importer.api.models.EpubUriAnalysis
 import com.firmfreez.app.book.importer.api.models.EpubUriAnalysisError
+import com.firmfreez.app.book.importer.impl.parser.EpubParser
 import com.firmfreez.app.di.domain.CoroutineDispatchersType
 import com.firmfreez.app.di.domain.CoroutineQualifiers
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,19 +17,18 @@ import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
 import java.io.FileNotFoundException
-import java.io.InputStream
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 
 @Single(binds = [EpubUriAnalyzer::class])
 class EpubUriAnalyzerImpl(
     @Provided @param:CoroutineQualifiers(CoroutineDispatchersType.Io)
     private val dispatcherIo: CoroutineDispatcher,
-    @Provided private val context: Context
+    @Provided private val context: Context,
 ) : EpubUriAnalyzer {
 
     private val contentResolver: ContentResolver
         get() = context.contentResolver
+
+    private val parser = EpubParser()
 
     override suspend fun analyze(uri: String): EpubUriAnalysis = withContext(dispatcherIo) {
         val parsedUri = uri.toUri()
@@ -43,12 +43,10 @@ class EpubUriAnalyzerImpl(
             isReadable = false,
             isEpub = false,
             error = null,
-        )
-
-        fun EpubUriAnalysis.withError(error: EpubUriAnalysisError) = copy(
-            isReadable = false,
-            isEpub = false,
-            error = error,
+            title = null,
+            author = null,
+            description = null,
+            coverPathInZip = null,
         )
 
         try {
@@ -56,12 +54,17 @@ class EpubUriAnalyzerImpl(
                 ?: return@withContext baseResult.withError(EpubUriAnalysisError.FILE_NOT_FOUND)
 
             inputStream.use { stream ->
-                val isEpub = isValidEpub(stream.buffered())
+                val parsedEpub = parser.parse(stream)
+                    ?: return@withContext baseResult.withError(EpubUriAnalysisError.INVALID_EPUB)
 
                 baseResult.copy(
                     isReadable = true,
-                    isEpub = isEpub,
-                    error = if (isEpub) null else EpubUriAnalysisError.INVALID_EPUB,
+                    isEpub = true,
+                    error = null,
+                    title = parsedEpub.title,
+                    author = parsedEpub.author,
+                    description = parsedEpub.description,
+                    coverPathInZip = parsedEpub.coverPathInZip,
                 )
             }
         } catch (_: SecurityException) {
@@ -92,17 +95,8 @@ class EpubUriAnalyzerImpl(
         val nameIndex = getColumnIndex(OpenableColumns.DISPLAY_NAME)
         val sizeIndex = getColumnIndex(OpenableColumns.SIZE)
 
-        val displayName = if (nameIndex != -1 && !isNull(nameIndex)) {
-            getString(nameIndex)
-        } else {
-            null
-        }
-
-        val sizeBytes = if (sizeIndex != -1 && !isNull(sizeIndex)) {
-            getLong(sizeIndex)
-        } else {
-            null
-        }
+        val displayName = if (nameIndex != -1 && !isNull(nameIndex)) getString(nameIndex) else null
+        val sizeBytes = if (sizeIndex != -1 && !isNull(sizeIndex)) getLong(sizeIndex) else null
 
         return UriMeta(
             displayName = displayName,
@@ -110,28 +104,16 @@ class EpubUriAnalyzerImpl(
         )
     }
 
-    private fun isValidEpub(inputStream: InputStream): Boolean {
-        ZipInputStream(inputStream).use { zip ->
-            var mimetypeEntryContent: String? = null
-            var hasContainerXml = false
-
-            while (true) {
-                val entry: ZipEntry = zip.nextEntry ?: break
-
-                when (entry.name) {
-                    "mimetype" -> {
-                        mimetypeEntryContent = zip.readBytes().decodeToString().trim()
-                    }
-                    "META-INF/container.xml" -> {
-                        hasContainerXml = true
-                    }
-                }
-
-                zip.closeEntry()
-            }
-
-            return mimetypeEntryContent == "application/epub+zip" && hasContainerXml
-        }
+    private fun EpubUriAnalysis.withError(error: EpubUriAnalysisError): EpubUriAnalysis {
+        return copy(
+            isReadable = false,
+            isEpub = false,
+            error = error,
+            title = null,
+            author = null,
+            description = null,
+            coverPathInZip = null,
+        )
     }
 
     private data class UriMeta(

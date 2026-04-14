@@ -7,5 +7,9 @@ sealed interface Action {
 
     data class OnBookPicked(val uri: Uri) : Action
 
+    data class OnBookClicked(val id: String) : Action
+
+    data class OnBookDeleteClicked(val id: String) : Action
+
     data class ShowError(val text: String) : Action
 }

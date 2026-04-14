@@ -1,4 +1,4 @@
-package com.firmfreez.app.common.data.network.di
+package com.firmfreez.app.common.data.di
 
 import com.firmfreez.app.common.domain.repositories.LoggerRepository
 import com.firmfreez.app.di.domain.CoroutineDispatchersType

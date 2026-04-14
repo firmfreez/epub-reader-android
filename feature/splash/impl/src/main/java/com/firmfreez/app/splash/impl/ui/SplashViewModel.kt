@@ -20,7 +20,7 @@ private const val TAG = "SplashViewModel"
 @KoinViewModel
 class SplashViewModel(
     @Provided private val isFirstAppLaunchUseCase: IsFirstAppLaunchUseCase,
-    @Provided @CoroutineQualifiers(CoroutineDispatchersType.Io)
+    @Provided @param:CoroutineQualifiers(CoroutineDispatchersType.Io)
     private val dispatcherIo: CoroutineDispatcher,
     @Provided private val logger: LoggerRepository,
     @Provided private val errorsRepository: ErrorsRepository,

@@ -1,3 +1,11 @@
+
+import ConfigPlugins.AndroidApplication
+import ConfigPlugins.AndroidApplicationCompose
+import ConfigPlugins.AndroidLibrary
+import ConfigPlugins.AndroidLibraryCompose
+import ConfigPlugins.KotlinLibrary
+import ConfigPlugins.Protobuf
+
 /**
  * This object contains constants related to the configuration plugins used in the project.
  *

@@ -26,4 +26,7 @@ dependencies {
     implementation(projects.common.domain)
     implementation(projects.common.ui)
     implementation(projects.common.uiComponents)
+
+    // Coil
+    implementation(libs.coil)
 }

@@ -1,4 +1,4 @@
-package com.firmfreez.app.common.domain.models.api_wrapper
+package com.firmfreez.app.common.domain.models.result_wrapper
 
 import com.firmfreez.app.common.domain.models.errors.AppThrowable
 

@@ -1,5 +1,6 @@
 package com.firmfreez.buildlogic.plugins.config
 
+import com.firmfreez.buildlogic.configs.kotlinJvmTargetConfig
 import com.firmfreez.buildlogic.extensions.implementation
 import com.firmfreez.buildlogic.extensions.libs
 import org.gradle.api.Plugin
@@ -20,7 +21,10 @@ internal class KotlinLibraryPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply(libs.plugins.kotlin.jvm.get().pluginId)
+                apply("java-library")
             }
+
+            kotlinJvmTargetConfig()
 
             dependencies {
                 implementation(libs.kotlin.stdlib)

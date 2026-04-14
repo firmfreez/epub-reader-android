@@ -7,7 +7,7 @@ minSdk = "24"
 targetSdk = "36"
 compileSdk = "36"
 
-java = "11"
+java = "21"
 
 agp = "9.0.1"
 kotlin = "2.3.20"
@@ -27,9 +27,11 @@ datastore = "1.2.1"
 protobuf = "4.34.1"
 protobufPlugin = "0.9.6"
 timber = "5.0.1"
-junit = "4.13.2"
-junitVersion = "1.3.0"
-espressoCore = "3.7.0"
+readium = "3.1.2"
+desugaring = "2.1.5"
+room = "2.8.4"
+coil = "3.4.0"
+
 
 [libraries]
 #### Kotlin
@@ -42,6 +44,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+android-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
 
 #### Compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -74,8 +77,18 @@ protobuf = { group = "com.google.protobuf", name = "protobuf-javalite", version.
 protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 
 
+#### Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+
 #### Timber
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+
+#### Coil
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 
 
 #### Plugins for composite build
@@ -83,9 +96,6 @@ android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", ver
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
 protobuf-gradlePlugin = { group = "com.google.protobuf", name = "protobuf-gradle-plugin", version.ref = "protobufPlugin" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -96,4 +106,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-compiler-plugin" }
+room = { id = "androidx.room", version.ref = "room" }
 

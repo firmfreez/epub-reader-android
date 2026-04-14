@@ -8,4 +8,8 @@ data class EpubUriAnalysis(
     val isReadable: Boolean,
     val isEpub: Boolean,
     val error: EpubUriAnalysisError?,
+    val title: String?,
+    val author: String?,
+    val description: String?,
+    val coverPathInZip: String?,
 )

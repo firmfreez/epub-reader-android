@@ -7,6 +7,7 @@ plugins {
     id(DependenciesPlugins.AndroidCore)
     id(DependenciesPlugins.ComposeUi)
     id(DependenciesPlugins.KoinApp)
+    id(DependenciesPlugins.VoyagerUi)
 }
 
 applicationIdConfig {
@@ -26,6 +27,7 @@ appNameConfig {
 
 android {
     namespace = "com.firmfreez.epubtesttask.android"
+    compileOptions.isCoreLibraryDesugaringEnabled = true
 }
 
 androidComponents {
@@ -56,8 +58,8 @@ dependencies {
     // Dependencies
     implementation(libs.androidx.splashscreen)
 
-    implementation(libs.voyager.navigator)
-    implementation(libs.voyager.transitions)
+    // Desugaring
+    coreLibraryDesugaring(libs.android.desugaring)
 }
 
 // DI
