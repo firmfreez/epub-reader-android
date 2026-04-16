@@ -20,13 +20,13 @@ class ErrorUiMapperImpl(
         val customError = (appThrowable?.data as? CustomError)
 
         if (customError != null) {
-            return customError.message.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_network_error)
+            return customError.message.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_error)
         }
 
         val message = (runtimeError?.message ?: appThrowable?.message ?: throwable.message)?.takeIf { it.isNotBlank() } ?: UNKNOWN_ERROR
 
         val localizedMessage = when (message) {
-            UNKNOWN_ERROR -> context.getString(R.string.unknown_network_error)
+            UNKNOWN_ERROR -> context.getString(R.string.unknown_error)
             else -> message
         }
 
