@@ -1,7 +1,5 @@
 package com.firmfreez.app.splash.impl.ui
 
-import com.firmfreez.app.common.domain.models.errors.AppThrowable
-import com.firmfreez.app.common.domain.repositories.ErrorsRepository
 import com.firmfreez.app.common.domain.repositories.LoggerRepository
 import com.firmfreez.app.common.ui.view_model.BaseViewModel
 import com.firmfreez.app.common.usecases.app.IsFirstAppLaunchUseCase
@@ -23,7 +21,6 @@ class SplashViewModel(
     @Provided @param:CoroutineQualifiers(CoroutineDispatchersType.Io)
     private val dispatcherIo: CoroutineDispatcher,
     @Provided private val logger: LoggerRepository,
-    @Provided private val errorsRepository: ErrorsRepository,
 ) : BaseViewModel<UiState, UiEvent>() {
 
     override val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState)
@@ -32,10 +29,8 @@ class SplashViewModel(
         launchSafely(context = dispatcherIo) {
             if (isFirstAppLaunchUseCase()) {
                 logger.d(TAG, "This is user first App launch!")
-                errorsRepository.emit(AppThrowable.custom("This is user first App launch!"))
             } else {
                 logger.d(TAG, "This is not user first App launch!")
-                errorsRepository.emit(AppThrowable.custom("This is not user first App launch!"))
             }
         }
 

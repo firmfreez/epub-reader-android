@@ -11,6 +11,10 @@ data class AppThrowable(
             data = CustomError(message = message)
         )
 
+        fun custom(throwable: Throwable) = AppThrowable(
+            data = RuntimeError(message = throwable.message, localizedMessage = throwable.localizedMessage, cause = throwable)
+        )
+
         fun unknown() = AppThrowable(
             data = CustomError(message = UNKNOWN_ERROR)
         )

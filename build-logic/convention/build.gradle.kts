@@ -12,6 +12,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.protobuf.gradlePlugin)
+    compileOnly(libs.koin.gradlePlugin)
 
     // Workaround for version catalog working inside precompiled scripts
     // Issue - https://github.com/gradle/gradle/issues/15383

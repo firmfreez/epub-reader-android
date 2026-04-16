@@ -7,11 +7,10 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ChannelResult
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -25,12 +24,12 @@ abstract class BaseViewModel<State, Event> : ViewModel() {
     protected abstract val _uiState: MutableStateFlow<State>
     val uiState get() = _uiState.asStateFlow()
 
-    private val _uiEvents = Channel<Event>(capacity = Channel.CONFLATED)
-    val uiEvents = _uiEvents.receiveAsFlow()
+    private val _uiEvents = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 64)
+    val uiEvents = _uiEvents.asSharedFlow()
 
-    private val _debouncedUiEvents = Channel<Event>(capacity = Channel.CONFLATED)
+    private val _debouncedUiEvents = MutableSharedFlow<Event>(replay = 0, extraBufferCapacity = 64)
     val debouncedUiEvents =
-        _debouncedUiEvents.receiveAsFlow().debounceFlowReversed(EVENT_DEBOUNCE_DURATION)
+        _debouncedUiEvents.asSharedFlow().debounceFlowReversed(EVENT_DEBOUNCE_DURATION)
 
     protected open fun onLoading(inProgress: Boolean) {}
 
@@ -104,10 +103,10 @@ abstract class BaseViewModel<State, Event> : ViewModel() {
         _uiState.update(function)
     }
 
-    protected fun emitEvent(event: Event): ChannelResult<Unit> = _uiEvents.trySend(event)
+    protected fun emitEvent(event: Event): Boolean = _uiEvents.tryEmit(event)
 
-    protected fun emitEventDebounced(event: Event): ChannelResult<Unit> =
-        _debouncedUiEvents.trySend(event)
+    protected fun emitEventDebounced(event: Event): Boolean =
+        _debouncedUiEvents.tryEmit(event)
 
     companion object {
         private const val EVENT_DEBOUNCE_DURATION = 2000L

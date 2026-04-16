@@ -62,7 +62,7 @@ class HomeScreenViewModel(
     }
 
     private fun onBookClickedAction(id: String) {
-
+        emitEventDebounced(UiEvent.OpenDocumentReader(bookId = id))
     }
 
     private fun onBookPickedAction(uri: Uri) {

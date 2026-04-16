@@ -12,5 +12,5 @@ sealed interface NavRoute
 sealed interface AppNavigation : NavRoute {
     data object Splash : AppNavigation
     data object Home : AppNavigation
+    data class Reader(val bookId: String) : AppNavigation
 }
-

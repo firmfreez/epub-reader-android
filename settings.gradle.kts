@@ -38,10 +38,12 @@ include(
     ":lib:navigation:api",
     ":lib:navigation:impl",
     ":lib:di:domain",
+    ":lib:book-importer:api",
+    ":lib:book-importer:impl",
     ":feature:splash:api",
     ":feature:splash:impl",
     ":feature:home:api",
     ":feature:home:impl",
+    ":feature:reader:api",
+    ":feature:reader:impl",
 )
-include(":lib:book-importer:api")
-include(":lib:book-importer:impl")

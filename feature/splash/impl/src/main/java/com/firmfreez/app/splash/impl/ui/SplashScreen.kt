@@ -45,7 +45,7 @@ class SplashScreen : Screen, SplashScreenProvider, ScreenTransition by FadeTrans
     override fun Content() {
         val viewModel = koinViewModel<SplashViewModel>()
         val navigator = LocalNavigator.currentOrThrow
-        val navigationResolver = koinInject<NavigationResolver>()
+        val navigationResolver: NavigationResolver = koinInject()
 
 
         HandleUiEvents(viewModel) { event ->

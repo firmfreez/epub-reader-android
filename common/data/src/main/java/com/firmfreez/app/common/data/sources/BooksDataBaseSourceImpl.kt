@@ -21,6 +21,15 @@ class BooksDataBaseSourceImpl(
         return dao.getById(id = id)
     }
 
+
+    override suspend fun updateReadingPosition(id: String, readingPosition: String) {
+        dao.updateReadingPosition(bookId = id, locatorJson = readingPosition)
+    }
+
+    override suspend fun getLocatorInfo(id: String): String? {
+        return dao.getLastLocatorJson(bookId = id)
+    }
+
     override suspend fun addBook(book: BookEntity) {
         dao.upsert(book = book)
     }

@@ -8,7 +8,6 @@ plugins {
 
 android.namespace = "com.firmfreez.app.home.impl"
 
-
 dependencies {
     // Api
     api(projects.feature.home.api)

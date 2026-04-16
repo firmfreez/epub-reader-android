@@ -18,6 +18,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import cafe.adriel.voyager.core.stack.StackEvent
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.transitions.ScreenTransition
 import com.firmfreez.app.common.ui.compose.view_model.HandleUiEvents
 import com.firmfreez.app.common.ui.screen_transitions.enterFade
@@ -28,7 +30,11 @@ import com.firmfreez.app.home.impl.ui.components.ScreenContent
 import com.firmfreez.app.home.impl.ui.models.Action
 import com.firmfreez.app.home.impl.ui.models.UiEvent
 import com.firmfreez.app.home.impl.ui.utils.rememberEpubPicker
+import com.firmfreez.app.navigation.api.NavigationResolver
+import com.firmfreez.app.navigation.api.routes.AppNavigation
+import com.firmfreez.app.navigation.api.screenOf
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 import org.koin.core.annotation.Factory
 
 @OptIn(ExperimentalVoyagerApi::class)
@@ -43,6 +49,8 @@ class HomeScreen : Screen, HomeScreenProvider, ScreenTransition {
     override fun Content() {
         val viewModel = koinViewModel<HomeScreenViewModel>()
         val uiState by viewModel.uiState.collectAsState()
+        val navigator = LocalNavigator.currentOrThrow
+        val navigationResolver: NavigationResolver = koinInject()
         val resources = LocalResources.current
         val context = LocalContext.current
 
@@ -65,6 +73,7 @@ class HomeScreen : Screen, HomeScreenProvider, ScreenTransition {
         HandleUiEvents(viewModel = viewModel) { event ->
             when (event) {
                 is UiEvent.OpenDocumentPicker -> openEpubPicker()
+                is UiEvent.OpenDocumentReader -> navigator.push(navigationResolver.screenOf(AppNavigation.Reader(bookId = event.bookId)))
             }
         }
 

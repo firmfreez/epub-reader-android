@@ -11,6 +11,10 @@ interface BooksRepository : SafeRepositoryCall {
 
     suspend fun getBook(id: String): ResultOf<Book?>
 
+    suspend fun getLastLocatorInfo(id: String): ResultOf<String?>
+
+    suspend fun setLastLocatorInfo(id: String, locatorJson: String): ResultOf<Unit>
+
     suspend fun appendBook(book: Book): ResultOf<Unit>
 
     suspend fun updateBook(book: Book): ResultOf<Unit>

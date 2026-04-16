@@ -11,4 +11,5 @@ dependencies {
 
     implementation(projects.feature.splash.api)
     implementation(projects.feature.home.api)
+    implementation(projects.feature.reader.api)
 }

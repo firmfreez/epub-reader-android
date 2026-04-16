@@ -9,6 +9,10 @@ interface BooksLocalSource {
 
     suspend fun getBook(id: String): BookEntity?
 
+    suspend fun updateReadingPosition(id: String, readingPosition: String)
+
+    suspend fun getLocatorInfo(id: String): String?
+
     suspend fun addBook(book: BookEntity)
 
     suspend fun updateBook(book: BookEntity)

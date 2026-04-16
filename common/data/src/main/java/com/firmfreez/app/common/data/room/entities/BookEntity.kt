@@ -17,4 +17,5 @@ data class BookEntity(
     val isAvailable: Boolean,
     val addedAtMillis: Long,
     val lastOpenedAtMillis: Long?,
+    val lastLocatorJson: String?,
 )

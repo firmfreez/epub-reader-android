@@ -49,6 +49,7 @@ class BookUiMapperImpl(
             isAvailable = isReadable && isEpub,
             addedAtMillis = now,
             lastOpenedAtMillis = null,
+            lastLocatorJson = null
         )
     }
 

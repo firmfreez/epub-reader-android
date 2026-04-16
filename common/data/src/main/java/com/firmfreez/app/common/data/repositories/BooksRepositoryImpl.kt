@@ -26,6 +26,17 @@ class BooksRepositoryImpl(
         localSource.getBook(id = id)?.let(bookDomainMapper::mapToDomain)
     }
 
+    override suspend fun getLastLocatorInfo(id: String): ResultOf<String?> = resultOf {
+        localSource.getLocatorInfo(id = id)
+    }
+
+    override suspend fun setLastLocatorInfo(
+        id: String,
+        locatorJson: String
+    ): ResultOf<Unit> = resultOf {
+        localSource.updateReadingPosition(id = id, readingPosition = locatorJson)
+    }
+
     override suspend fun appendBook(book: Book): ResultOf<Unit> = resultOf {
         val entity = bookDomainMapper.mapFromDomain(book)
 

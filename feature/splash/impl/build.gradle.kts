@@ -7,7 +7,6 @@ plugins {
 
 android.namespace = "com.firmfreez.app.splash.impl"
 
-
 dependencies {
     // Api
     api(projects.feature.splash.api)

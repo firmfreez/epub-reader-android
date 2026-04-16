@@ -21,13 +21,14 @@ appcompat = "1.7.1"
 material = "1.13.0"
 voyagerNavigation = "1.1.0-beta03"
 koin-bom = "4.2.1"
-koin-compiler-plugin = "0.6.2"
+koin-compiler-plugin = "1.0.0-RC1"
 splashscreen = "1.2.0"
 datastore = "1.2.1"
 protobuf = "4.34.1"
 protobufPlugin = "0.9.6"
 timber = "5.0.1"
 readium = "3.1.2"
+fragment = "1.8.9"
 desugaring = "2.1.5"
 room = "2.8.4"
 coil = "3.4.0"
@@ -45,6 +46,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 android-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+
+#### Fragment
+androidx-fragment-compose = { group = "androidx.fragment", name = "fragment-compose", version.ref = "fragment" }
 
 #### Compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -90,12 +94,17 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 #### Coil
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 
+#### Readium
+readium-shared = { group = "org.readium.kotlin-toolkit", name = "readium-shared", version.ref = "readium" }
+readium-streamer = { group = "org.readium.kotlin-toolkit", name = "readium-streamer", version.ref = "readium" }
+readium-navigator = { group = "org.readium.kotlin-toolkit", name = "readium-navigator", version.ref = "readium" }
 
 #### Plugins for composite build
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
 protobuf-gradlePlugin = { group = "com.google.protobuf", name = "protobuf-gradle-plugin", version.ref = "protobufPlugin" }
+koin-gradlePlugin = { group = "io.insert-koin", name = "koin-compiler-gradle-plugin", version.ref = "koin-compiler-plugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

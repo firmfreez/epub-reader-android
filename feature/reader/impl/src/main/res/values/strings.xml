@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reader_open_error_invalid_uri">Не удалось открыть книгу: некорректный адрес файла.</string>
+    <string name="reader_open_error_file_not_found">Не удалось открыть книгу: файл недоступен или не найден.</string>
+    <string name="reader_open_error_unsupported_format">Не удалось открыть книгу: неподдерживаемый формат.</string>
+    <string name="reader_open_error_asset">Не удалось получить доступ к файлу книги.</string>
+    <string name="reader_open_error_parse">Не удалось прочитать содержимое книги.</string>
+    <string name="reader_open_error_publication">Не удалось подготовить книгу к чтению.</string>
+    <string name="reader_open_error_unknown">Не удалось открыть книгу. Попробуй ещё раз.</string>
+
+    <string name="reader_screen_loading_title">Открываем книгу</string>
+    <string name="reader_screen_loading_message">Подготавливаем документ для чтения</string>
+    <string name="reader_screen_error_fragment_activity_required">Не удалось открыть экран чтения</string>
+
+    <string name="reader_load_page_overlay_title">Загрузка страницы</string>
+    <string name="reader_load_page_overlay_message">Подожди немного…</string>
+
+    <string name="reader_control_overlay_back">Назад</string>
+    <string name="reader_control_overlay_previous">Предыдущая страница</string>
+    <string name="reader_control_overlay_next">Следующая страница</string>
+</resources>

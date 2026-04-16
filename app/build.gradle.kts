@@ -40,12 +40,6 @@ androidComponents {
 }
 
 
-koinCompiler {
-    compileSafety = true
-    userLogs = true
-    debugLogs = true
-}
-
 dependencies {
     // Core
     implementation(projects.core.style)
@@ -77,4 +71,5 @@ dependencies {
     // Features
     implementation(projects.feature.splash.impl)
     implementation(projects.feature.home.impl)
+    implementation(projects.feature.reader.impl)
 }
