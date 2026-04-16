@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "EpubTestTask"
+rootProject.name = "EpubReader"
 include(
     ":app",
     ":core:style",
