@@ -32,9 +32,10 @@ class BooksRepositoryImpl(
 
     override suspend fun setLastLocatorInfo(
         id: String,
-        locatorJson: String
+        locatorJson: String,
+        progress: Float
     ): ResultOf<Unit> = resultOf {
-        localSource.updateReadingPosition(id = id, readingPosition = locatorJson)
+        localSource.updateReadingPosition(id = id, readingPosition = locatorJson, progress = progress)
     }
 
     override suspend fun appendBook(book: Book): ResultOf<Unit> = resultOf {

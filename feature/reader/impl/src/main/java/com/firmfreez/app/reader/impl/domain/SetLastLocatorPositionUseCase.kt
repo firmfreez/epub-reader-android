@@ -4,5 +4,5 @@ import org.readium.r2.shared.publication.Locator
 
 interface SetLastLocatorPositionUseCase {
 
-    suspend operator fun invoke(bookId: String, locator: Locator)
+    suspend operator fun invoke(bookId: String, locator: Locator, progress: Float)
 }

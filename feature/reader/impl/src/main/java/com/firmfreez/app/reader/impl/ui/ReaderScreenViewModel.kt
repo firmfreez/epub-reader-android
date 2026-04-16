@@ -23,6 +23,7 @@ import org.koin.core.annotation.KoinViewModel
 import org.koin.core.annotation.Provided
 import org.readium.r2.shared.publication.Locator
 import org.readium.r2.shared.publication.Publication
+import org.readium.r2.shared.publication.services.positions
 import kotlin.time.Duration.Companion.seconds
 
 @KoinViewModel
@@ -48,7 +49,8 @@ class ReaderScreenViewModel(
             is Action.UpdatePageData -> onUpdatePageDataAction(
                 currentPage = action.currentPage,
                 totalPages = action.totalPages,
-                locator = action.locator
+                locator = action.locator,
+                publication = action.publication
             )
 
             is Action.OnPageClicked -> onPageClickedAction()
@@ -112,7 +114,8 @@ class ReaderScreenViewModel(
     private fun onUpdatePageDataAction(
         currentPage: Int,
         totalPages: Int,
-        locator: Locator
+        locator: Locator,
+        publication: Publication
     ) {
         updateUiState {
             copy(
@@ -123,8 +126,21 @@ class ReaderScreenViewModel(
 
         val bookId = uiState.value.currentBookId ?: return
         launchSafely(context = dispatcherIo) {
-            setLastLocatorPosition(bookId = bookId, locator = locator)
+            val progress = calculateBookProgressPercent(publication, locator)
+            setLastLocatorPosition(bookId = bookId, locator = locator, progress = progress)
         }
+    }
+
+
+    private suspend fun calculateBookProgressPercent(
+        publication: Publication,
+        locator: Locator,
+    ): Float {
+        val currentPosition = locator.locations.position ?: return 0f
+        val totalPositions = publication.positions().size
+        if (totalPositions <= 0) return 0f
+
+        return currentPosition.toFloat() / totalPositions.toFloat()
     }
 
 

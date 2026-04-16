@@ -25,6 +25,7 @@ import org.readium.r2.navigator.preferences.Theme
 import org.readium.r2.shared.ExperimentalReadiumApi
 import org.readium.r2.shared.publication.Locator
 import org.readium.r2.shared.publication.Publication
+import org.readium.r2.shared.publication.services.positions
 
 class EpubReaderFragment : Fragment() {
 
@@ -61,6 +62,7 @@ class EpubReaderFragment : Fragment() {
                                 currentPage = publication.currentReadingOrderIndex(locator) + 1,
                                 totalPages = publication.readingOrder.size,
                                 locator = locator,
+                                publication = publication,
                             )
                         )
                     }
@@ -142,6 +144,7 @@ class EpubReaderFragment : Fragment() {
             link.href.toString() == locatorHref
         }
     }
+
 
     companion object {
         private const val ARG_BOOK_ID = "book_id"

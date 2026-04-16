@@ -18,4 +18,5 @@ data class BookEntity(
     val addedAtMillis: Long,
     val lastOpenedAtMillis: Long?,
     val lastLocatorJson: String?,
+    val progress: Float?
 )

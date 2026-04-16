@@ -22,8 +22,12 @@ class BooksDataBaseSourceImpl(
     }
 
 
-    override suspend fun updateReadingPosition(id: String, readingPosition: String) {
-        dao.updateReadingPosition(bookId = id, locatorJson = readingPosition)
+    override suspend fun updateReadingPosition(
+        id: String,
+        readingPosition: String,
+        progress: Float
+    ) {
+        dao.updateReadingPosition(bookId = id, locatorJson = readingPosition, progress = progress)
     }
 
     override suspend fun getLocatorInfo(id: String): String? {

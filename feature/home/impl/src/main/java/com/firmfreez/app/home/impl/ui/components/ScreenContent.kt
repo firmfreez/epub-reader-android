@@ -203,6 +203,7 @@ private fun ScreenContentContentPreview() {
                         coverUri = null,
                         subtitle = "Роберт Мартин • 2,4 МБ",
                         isAvailable = true,
+                        progressState = BookUiModel.ProgressState.New
                     ),
                     BookUiModel(
                         id = "2",
@@ -211,6 +212,7 @@ private fun ScreenContentContentPreview() {
                         coverUri = null,
                         subtitle = "Дмитрий Жемеров • 3,1 МБ",
                         isAvailable = true,
+                        progressState = BookUiModel.ProgressState.Finished
                     ),
                     BookUiModel(
                         id = "3",
@@ -219,6 +221,7 @@ private fun ScreenContentContentPreview() {
                         coverUri = null,
                         subtitle = "Билл Филлипс • 5,7 МБ",
                         isAvailable = false,
+                        progressState = BookUiModel.ProgressState.InProgress(50)
                     ),
                 )
             ),

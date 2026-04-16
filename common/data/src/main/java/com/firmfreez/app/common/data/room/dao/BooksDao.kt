@@ -13,10 +13,11 @@ interface BooksDao {
     @Query("SELECT * FROM books ORDER BY addedAtMillis DESC")
     fun observeAll(): Flow<List<BookEntity>>
 
-    @Query("UPDATE books SET lastLocatorJson = :locatorJson WHERE id = :bookId")
+    @Query("UPDATE books SET lastLocatorJson = :locatorJson, progress = :progress WHERE id = :bookId")
     suspend fun updateReadingPosition(
         bookId: String,
         locatorJson: String?,
+        progress: Float?
     )
 
     @Query("SELECT lastLocatorJson FROM books WHERE id = :bookId")

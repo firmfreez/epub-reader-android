@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Visibility
@@ -21,6 +24,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,12 +35,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import com.firmfreez.app.core.style_compose.AppTheme
+import com.firmfreez.app.core.style_compose.colors.LocalExtendedColors
 import com.firmfreez.app.core.style_compose.dimensions.LocalBorderWidth
 import com.firmfreez.app.core.style_compose.dimensions.LocalCornerRadii
 import com.firmfreez.app.core.style_compose.dimensions.LocalSize
@@ -75,32 +82,54 @@ internal fun BookItem(
                 .padding(spacing.paddingX4),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Surface(
-                modifier = Modifier
-                    .width(size.sizeX16)
-                    .height(size.sizeX24),
-                shape = RoundedCornerShape(cornerRadii.cornersX3),
-                color = MaterialTheme.colorScheme.surfaceVariant,
-            ) {
-                if (!book.coverUri.isNullOrBlank()) {
-                    AsyncImage(
-                        model = book.coverUri,
-                        contentDescription = book.title,
-                        modifier = Modifier.fillMaxWidth(),
-                        contentScale = ContentScale.Crop,
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.MenuBook,
-                            contentDescription = null,
-                            modifier = Modifier.size(size.sizeX8),
-                            tint = MaterialTheme.colorScheme.primary,
+            Box {
+                Surface(
+                    modifier = Modifier
+                        .width(size.sizeX16)
+                        .height(size.sizeX24),
+                    shape = RoundedCornerShape(cornerRadii.cornersX3),
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                ) {
+                    if (!book.coverUri.isNullOrBlank()) {
+                        AsyncImage(
+                            model = book.coverUri,
+                            contentDescription = book.title,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.Crop,
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.MenuBook,
+                                contentDescription = null,
+                                modifier = Modifier.size(size.sizeX8),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                    }
+                }
+
+                when (book.progressState) {
+                    BookUiModel.ProgressState.New -> {
+                        NewBadge(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .offset(x = spacing.paddingX1, y = -spacing.paddingX1),
                         )
                     }
+
+                    BookUiModel.ProgressState.Finished -> {
+                        FinishedBadge(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .offset(x = spacing.paddingX1, y = -spacing.paddingX1),
+                        )
+                    }
+
+                    is BookUiModel.ProgressState.InProgress -> Unit
                 }
             }
 
@@ -129,8 +158,36 @@ internal fun BookItem(
                     )
                 }
 
+                when (val progressState = book.progressState) {
+                    is BookUiModel.ProgressState.InProgress -> {
+                        Spacer(modifier = Modifier.height(spacing.paddingX2))
+
+                        Text(
+                            text = stringResource(
+                                R.string.home_screen_books_item_in_progress,
+                                progressState.progress.coerceIn(0, 100),
+                            ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Medium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+
+                        Spacer(modifier = Modifier.height(spacing.paddingX1))
+
+                        LinearProgressIndicator(
+                            progress = { progressState.progress.coerceIn(0, 100) / 100f },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+
+                    BookUiModel.ProgressState.New,
+                    BookUiModel.ProgressState.Finished -> Unit
+                }
+
                 if (!book.isAvailable) {
-                    Spacer(modifier = Modifier.height(spacing.paddingX1))
+                    Spacer(modifier = Modifier.height(spacing.paddingX2))
                     Text(
                         text = stringResource(R.string.home_screen_books_item_unavailable),
                         style = MaterialTheme.typography.bodySmall,
@@ -193,9 +250,56 @@ internal fun BookItem(
     }
 }
 
+@Composable
+private fun NewBadge(
+    modifier: Modifier = Modifier,
+) {
+    val spacing = LocalSpacing.current
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(percent = 50),
+        color = MaterialTheme.colorScheme.error,
+    ) {
+        Text(
+            text = stringResource(R.string.home_screen_books_item_badge_new),
+            modifier = Modifier.padding(
+                horizontal = spacing.paddingX2,
+                vertical = spacing.paddingX1,
+            ),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onError,
+            fontWeight = FontWeight.SemiBold,
+        )
+    }
+}
+
+@Composable
+private fun FinishedBadge(
+    modifier: Modifier = Modifier,
+) {
+    val size = LocalSize.current
+    Surface(
+        modifier = modifier
+            .size(size.sizeX6)
+            .clip(CircleShape),
+        shape = CircleShape,
+        color = LocalExtendedColors.current.success,
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Check,
+                contentDescription = stringResource(R.string.home_screen_books_item_badge_finished),
+                tint = MaterialTheme.colorScheme.onTertiary,
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-private fun BookItemPreview() =
+private fun BookItemPreviewNew() =
     AppTheme {
         BookItem(
             book = BookUiModel(
@@ -205,6 +309,45 @@ private fun BookItemPreview() =
                 coverUri = null,
                 subtitle = "Роберт Мартин • 2,4 МБ",
                 isAvailable = true,
+                progressState = BookUiModel.ProgressState.New,
+            ),
+            onClick = {},
+            onDeleteClick = {},
+        )
+    }
+
+@Preview(showBackground = true)
+@Composable
+private fun BookItemPreviewInProgress() =
+    AppTheme {
+        BookItem(
+            book = BookUiModel(
+                id = "2",
+                title = "Идеальный программист",
+                author = "Роберт Мартин",
+                coverUri = null,
+                subtitle = "Роберт Мартин • 3,1 МБ",
+                isAvailable = true,
+                progressState = BookUiModel.ProgressState.InProgress(progress = 42),
+            ),
+            onClick = {},
+            onDeleteClick = {},
+        )
+    }
+
+@Preview(showBackground = true)
+@Composable
+private fun BookItemPreviewFinished() =
+    AppTheme {
+        BookItem(
+            book = BookUiModel(
+                id = "3",
+                title = "Рефакторинг",
+                author = "Мартин Фаулер",
+                coverUri = null,
+                subtitle = "Мартин Фаулер • 4,8 МБ",
+                isAvailable = true,
+                progressState = BookUiModel.ProgressState.Finished,
             ),
             onClick = {},
             onDeleteClick = {},

@@ -1,6 +1,7 @@
 package com.firmfreez.app.reader.impl.ui.models
 
 import org.readium.r2.shared.publication.Locator
+import org.readium.r2.shared.publication.Publication
 
 sealed interface Action {
 
@@ -13,7 +14,8 @@ sealed interface Action {
     data class UpdatePageData(
         val currentPage: Int,
         val totalPages: Int,
-        val locator: Locator
+        val locator: Locator,
+        val publication: Publication,
     ) : Action
 
     data class FailedToOpenPublication(val message: String) : Action

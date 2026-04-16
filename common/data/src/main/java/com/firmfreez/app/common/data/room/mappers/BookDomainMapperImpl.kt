@@ -20,7 +20,8 @@ class BookDomainMapperImpl : BookDomainMapper {
             isAvailable = entity.isAvailable,
             addedAtMillis = entity.addedAtMillis,
             lastOpenedAtMillis = entity.lastOpenedAtMillis,
-            lastLocatorJson = entity.lastLocatorJson
+            lastLocatorJson = entity.lastLocatorJson,
+            progress = entity.progress
         )
     }
 
@@ -37,7 +38,8 @@ class BookDomainMapperImpl : BookDomainMapper {
             isAvailable = domain.isAvailable,
             addedAtMillis = domain.addedAtMillis,
             lastOpenedAtMillis = domain.lastOpenedAtMillis,
-            lastLocatorJson = domain.lastLocatorJson
+            lastLocatorJson = domain.lastLocatorJson,
+            progress = domain.progress
         )
     }
 }

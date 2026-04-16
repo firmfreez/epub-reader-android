@@ -9,6 +9,7 @@ import com.firmfreez.app.home.impl.ui.models.BookUiModel
 import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
 import java.util.UUID
+import kotlin.math.roundToInt
 
 @Single(binds = [BookUiMapper::class])
 class BookUiMapperImpl(
@@ -27,6 +28,11 @@ class BookUiMapperImpl(
                 fileSizeBytes = dto.fileSizeBytes,
             ),
             isAvailable = dto.isAvailable,
+            progressState = when(val progress = dto.progress) {
+                null -> BookUiModel.ProgressState.New
+                1f -> BookUiModel.ProgressState.Finished
+                else -> BookUiModel.ProgressState.InProgress((progress * 100).roundToInt())
+            }
         )
     }
 
@@ -49,7 +55,8 @@ class BookUiMapperImpl(
             isAvailable = isReadable && isEpub,
             addedAtMillis = now,
             lastOpenedAtMillis = null,
-            lastLocatorJson = null
+            lastLocatorJson = null,
+            progress = null
         )
     }
 

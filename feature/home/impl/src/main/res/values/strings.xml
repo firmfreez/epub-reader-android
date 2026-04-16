@@ -21,4 +21,8 @@
     <string name="home_screen_books_item_menu_content_description">Открыть меню книги</string>
     <string name="home_screen_books_item_action_view">Читать</string>
     <string name="home_screen_books_item_action_delete">Удалить</string>
+
+    <string name="home_screen_books_item_badge_new">Новая</string>
+    <string name="home_screen_books_item_badge_finished">Завершена</string>
+    <string name="home_screen_books_item_in_progress">В процессе • %1$d%%</string>
 </resources>
