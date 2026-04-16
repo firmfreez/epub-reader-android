@@ -21,6 +21,10 @@ class BooksDataBaseSourceImpl(
         return dao.getById(id = id)
     }
 
+    override suspend fun getBookByFileHash(fileHash: String): BookEntity? {
+        return dao.getBookByFileHash(fileHash = fileHash)
+    }
+
     override suspend fun isBookExists(fileHash: String): Boolean {
         return dao.isBookExists(fileHash = fileHash)
     }

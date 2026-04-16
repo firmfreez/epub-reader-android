@@ -26,6 +26,10 @@ class BooksRepositoryImpl(
         localSource.getBook(id = id)?.let(bookDomainMapper::mapToDomain)
     }
 
+    override suspend fun getBookByFileHash(fileHash: String): ResultOf<Book?> = resultOf {
+        localSource.getBookByFileHash(fileHash = fileHash)?.let(bookDomainMapper::mapToDomain)
+    }
+
     override suspend fun getLastLocatorInfo(id: String): ResultOf<String?> = resultOf {
         localSource.getLocatorInfo(id = id)
     }

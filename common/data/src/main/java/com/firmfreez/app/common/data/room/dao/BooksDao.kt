@@ -26,6 +26,9 @@ interface BooksDao {
     @Query("SELECT EXISTS(SELECT 1 FROM books WHERE fileHash = :fileHash)")
     suspend fun isBookExists(fileHash: String): Boolean
 
+    @Query("SELECT * FROM books WHERE fileHash = :fileHash LIMIT 1")
+    suspend fun getBookByFileHash(fileHash: String): BookEntity?
+
     @Query("SELECT * FROM books WHERE id = :id LIMIT 1")
     suspend fun getById(id: String): BookEntity?
 

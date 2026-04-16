@@ -9,6 +9,8 @@ interface BooksLocalSource {
 
     suspend fun getBook(id: String): BookEntity?
 
+    suspend fun getBookByFileHash(fileHash: String): BookEntity?
+
     suspend fun updateReadingPosition(id: String, readingPosition: String, progress: Float)
 
     suspend fun getLocatorInfo(id: String): String?

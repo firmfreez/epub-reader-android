@@ -2,6 +2,8 @@ package com.firmfreez.epubtesttask
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
 import cafe.adriel.voyager.transitions.ScreenTransition
@@ -33,21 +36,25 @@ import com.firmfreez.app.navigation.api.screenOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.get
-import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModel()
+
     @OptIn(ExperimentalVoyagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         configSplashScreen()
 
         super.onCreate(savedInstanceState)
 
+        handleIncomingIntent(intent)
+
         val navigationResolver: NavigationResolver = get()
 
         enableEdgeToEdge()
 
         setContent {
-            val viewModel: MainActivityViewModel = koinViewModel()
             val snackbarHostState = remember { SnackbarHostState() }
             var localNavigator by remember { mutableStateOf<Navigator?>(null) }
 
@@ -65,10 +72,28 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            LaunchedEffect(viewModel.uriToOpen) {
+                viewModel.uriToOpen
+                    .onEach {
+                        if (localNavigator?.items?.lastOrNull() != AppNavigation.Splash) {
+                            localNavigator?.replaceAllIfNotPresent(navigationResolver.screenOf(AppNavigation.Home))
+                        }
+                    }
+                    .launchIn(this)
+            }
+
             ErrorHandler(
                 snackbarHostState = snackbarHostState,
                 viewModel = viewModel
             )
+        }
+    }
+
+    private fun Navigator.replaceAllIfNotPresent(screen: Screen) {
+        items.lastOrNull()?.let {
+            if (it::class != screen::class) {
+                replaceAll(screen)
+            }
         }
     }
 
@@ -88,6 +113,35 @@ class MainActivity : AppCompatActivity() {
             snackbarHostState = snackbarHostState
         ) {
             SnackbarErrorCloseAction(onClick = { snackbarHostState.currentSnackbarData?.dismiss() })
+        }
+    }
+
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIncomingIntent(intent)
+    }
+
+    private fun handleIncomingIntent(intent: Intent?) {
+        val uri = intent?.data ?: return
+
+        if (intent.action == Intent.ACTION_VIEW) {
+            grantReadPermissionIfNeeded(intent, uri)
+
+            viewModel.setUriToOpen(uri = uri.toString())
+        }
+    }
+
+    private fun grantReadPermissionIfNeeded(intent: Intent, uri: Uri) {
+        val hasReadFlag = intent.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION != 0
+        if (hasReadFlag) {
+            runCatching {
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
         }
     }
 

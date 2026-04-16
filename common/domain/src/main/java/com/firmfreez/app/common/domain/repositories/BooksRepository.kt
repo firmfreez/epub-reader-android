@@ -11,6 +11,8 @@ interface BooksRepository : SafeRepositoryCall {
 
     suspend fun getBook(id: String): ResultOf<Book?>
 
+    suspend fun getBookByFileHash(fileHash: String): ResultOf<Book?>
+
     suspend fun isBookExists(fileHash: String): ResultOf<Boolean>
 
     suspend fun getLastLocatorInfo(id: String): ResultOf<String?>

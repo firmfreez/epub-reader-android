@@ -6,5 +6,5 @@ import com.firmfreez.app.home.impl.ui.models.BookUiModel
 
 interface ImportBookUseCase {
 
-    suspend operator fun invoke(uri: Uri): ResultOf<BookUiModel>
+    suspend operator fun invoke(uri: Uri, failIfExists: Boolean): ResultOf<BookUiModel>
 }

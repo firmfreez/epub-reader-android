@@ -9,13 +9,19 @@ class AppPreferencesDataProtoMapperImpl : AppPreferencesDataProtoMapper {
 
     override fun mapToDomain(proto: AppPreferencesProto) = with (proto) {
         AppPreferencesData(
-            isFirstAppLaunch = isFirstAppLaunch
+            isFirstAppLaunch = isFirstAppLaunch,
+            uriToOpen = uriToOpen
         )
     }
 
     override fun mapFromDomain(domain: AppPreferencesData): AppPreferencesProto = with (domain) {
-        AppPreferencesProto.newBuilder()
+        val builder = AppPreferencesProto.newBuilder()
             .setIsFirstAppLaunch(isFirstAppLaunch)
-            .build()
+
+        if (domain.uriToOpen != null) {
+            builder.setUriToOpen(domain.uriToOpen)
+        }
+
+        builder.build()
     }
 }

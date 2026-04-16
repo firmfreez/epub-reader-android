@@ -46,6 +46,22 @@ class AppPreferencesRepositoryImpl(
         }
     }
 
+    override val uriToOpen: Flow<String?> = appPreferences.map { preferences ->
+        appPreferencesProtoMapper.mapToDomain(preferences)
+    }.map { it.uriToOpen }
+
+    override suspend fun setUriToOpen(uri: String?) {
+        context.appPreferencesStore.updateData { preferences ->
+            val builder = preferences.toBuilder()
+            if (uri == null) {
+                builder.clearUriToOpen()
+            } else {
+                builder.setUriToOpen(uri)
+            }
+            builder.build()
+        }
+    }
+
     private companion object {
         const val TAG = "AppPreferencesRepository"
 

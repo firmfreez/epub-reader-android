@@ -26,7 +26,7 @@ class ImportBookUseCaseImpl(
 ) : ImportBookUseCase {
 
 
-    override suspend fun invoke(uri: Uri): ResultOf<BookUiModel> {
+    override suspend fun invoke(uri: Uri, failIfExists: Boolean): ResultOf<BookUiModel> {
         val analyzeData = bookImporter.analyze(uri.toString())
 
         analyzeData.error?.let {
@@ -41,11 +41,21 @@ class ImportBookUseCaseImpl(
         }
 
         val fileHash = analyzeData.fileHash ?: return ResultOf.Fail(AppThrowable.unknown())
-
         val isBookExists = booksRepository.isBookExists(fileHash = fileHash).toSuccessOrNull { return ResultOf.Fail(it) } == true
         if (isBookExists) {
-            return ResultOf.Fail(AppThrowable.custom(context.resources.getString(R.string.home_screen_picker_file_exists_error)))
+            if (failIfExists) {
+                return ResultOf.Fail(AppThrowable.custom(context.resources.getString(R.string.home_screen_picker_file_exists_error)))
+            }
+
+            return booksRepository.getBookByFileHash(fileHash = fileHash)
+                .mapSuccess {
+                    if (it == null) {
+                        return ResultOf.Fail(AppThrowable.unknown())
+                    }
+                    bookUiMapper.mapFromDomain(it)
+                }
         }
+
 
         val book = bookUiMapper.mapDomainFromAnalysis(dto = analyzeData).let {
             it.copy(

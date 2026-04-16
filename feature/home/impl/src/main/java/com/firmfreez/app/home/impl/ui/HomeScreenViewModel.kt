@@ -2,13 +2,17 @@ package com.firmfreez.app.home.impl.ui
 
 
 import android.net.Uri
+import androidx.core.net.toUri
 import com.firmfreez.app.common.domain.models.errors.AppThrowable
 import com.firmfreez.app.common.domain.models.result_wrapper.handleFail
+import com.firmfreez.app.common.domain.models.result_wrapper.handleSuccess
 import com.firmfreez.app.common.domain.repositories.ErrorsRepository
 import com.firmfreez.app.common.ui.view_model.BaseViewModel
 import com.firmfreez.app.di.domain.CoroutineDispatchersType
 import com.firmfreez.app.di.domain.CoroutineQualifiers
+import com.firmfreez.app.home.impl.domain.ClearUriToOpenUseCase
 import com.firmfreez.app.home.impl.domain.DeleteBookUseCase
+import com.firmfreez.app.home.impl.domain.GetUriToOpenUseCase
 import com.firmfreez.app.home.impl.domain.ImportBookUseCase
 import com.firmfreez.app.home.impl.domain.ObserveBooksUseCase
 import com.firmfreez.app.home.impl.ui.models.Action
@@ -28,6 +32,8 @@ class HomeScreenViewModel(
     @Provided private val observeBooks: ObserveBooksUseCase,
     @Provided private val importBook: ImportBookUseCase,
     @Provided private val deleteBook: DeleteBookUseCase,
+    @Provided private val getUriToOpen: GetUriToOpenUseCase,
+    @Provided private val clearUriToOpen: ClearUriToOpenUseCase
 ) : BaseViewModel<UiState, UiEvent>() {
 
     override val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.empty())
@@ -38,6 +44,17 @@ class HomeScreenViewModel(
                 updateUiState {
                     copy(books = booksList)
                 }
+            }
+        }
+
+        launchSafely(context = dispatcherIo) {
+            val uriToOpen = getUriToOpen()?.toUri()
+            if (uriToOpen != null) {
+                importBook(uri = uriToOpen, failIfExists = false)
+                    .handleSuccess {
+                        clearUriToOpen()
+                        emitEventDebounced(UiEvent.OpenDocumentReader(bookId = it.id))
+                    }
             }
         }
     }
@@ -65,7 +82,7 @@ class HomeScreenViewModel(
 
     private fun onBookPickedAction(uri: Uri) {
         launchSafely(context = dispatcherIo) {
-            importBook(uri = uri)
+            importBook(uri = uri, failIfExists = true)
                 .handleFail(errorsRepository::emit)
         }
     }
