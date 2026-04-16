@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "796951875607",
+    "project_id": "epubreader-21586",
+    "storage_bucket": "epubreader-21586.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796951875607:android:7dca448c80a6d316cd8c52",
+        "android_client_info": {
+          "package_name": "com.firmfreez.epubreader.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGcImoxMS4wJCVcUZh87EZpuC21-ZC9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796951875607:android:95ea754e23bfd7eecd8c52",
+        "android_client_info": {
+          "package_name": "com.firmfreez.epubreader.android.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGcImoxMS4wJCVcUZh87EZpuC21-ZC9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796951875607:android:54716c5286429d2fcd8c52",
+        "android_client_info": {
+          "package_name": "com.firmfreez.epubreader.android.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGcImoxMS4wJCVcUZh87EZpuC21-ZC9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796951875607:android:46d9164596458836cd8c52",
+        "android_client_info": {
+          "package_name": "com.firmfreez.epubreader.android.dev.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWGcImoxMS4wJCVcUZh87EZpuC21-ZC9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

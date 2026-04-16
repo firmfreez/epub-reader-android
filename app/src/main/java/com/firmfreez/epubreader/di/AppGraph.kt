@@ -1,4 +1,4 @@
-package com.firmfreez.epubtesttask.di
+package com.firmfreez.epubreader.di
 
 import org.koin.core.annotation.KoinApplication
 

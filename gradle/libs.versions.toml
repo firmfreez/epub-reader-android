@@ -32,6 +32,9 @@ fragment = "1.8.9"
 desugaring = "2.1.5"
 room = "2.8.4"
 coil = "3.4.0"
+firebase-bom = "34.12.0"
+firebase-crashlytics-plugin = "3.0.7"
+google-services-plugin = "4.4.4"
 
 
 [libraries]
@@ -99,6 +102,10 @@ readium-shared = { group = "org.readium.kotlin-toolkit", name = "readium-shared"
 readium-streamer = { group = "org.readium.kotlin-toolkit", name = "readium-streamer", version.ref = "readium" }
 readium-navigator = { group = "org.readium.kotlin-toolkit", name = "readium-navigator", version.ref = "readium" }
 
+#### Firebase
+android-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+android-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+
 #### Plugins for composite build
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -116,4 +123,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koin-compiler-plugin" }
 room = { id = "androidx.room", version.ref = "room" }
-
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
+firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }

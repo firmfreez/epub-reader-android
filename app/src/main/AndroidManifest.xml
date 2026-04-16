@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name="com.firmfreez.epubtesttask.MainApplication"
+        android:name="com.firmfreez.epubreader.MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
-            android:name="com.firmfreez.epubtesttask.MainActivity"
+            android:name="com.firmfreez.epubreader.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.App">

@@ -8,12 +8,15 @@ plugins {
     id(DependenciesPlugins.ComposeUi)
     id(DependenciesPlugins.KoinApp)
     id(DependenciesPlugins.VoyagerUi)
+    // For Firebase
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlytics)
 }
 
 applicationIdConfig {
     when (this) {
-        Flavour.DEV -> "com.firmfreez.epubtesttask.android.dev"
-        Flavour.PROD -> "com.firmfreez.epubtesttask.android"
+        Flavour.DEV -> "com.firmfreez.epubreader.android.dev"
+        Flavour.PROD -> "com.firmfreez.epubreader.android"
     }
 }
 
@@ -26,14 +29,14 @@ appNameConfig {
 
 
 android {
-    namespace = "com.firmfreez.epubtesttask.android"
+    namespace = "com.firmfreez.epubreader.android"
     compileOptions.isCoreLibraryDesugaringEnabled = true
 }
 
 androidComponents {
     onVariants { variant ->
         variant.outputs.forEach { output ->
-            val name = "epub-test-task-${output.versionName.get()}-${output.versionCode.get()}"
+            val name = "epub-reader-${output.versionName.get()}-${output.versionCode.get()}"
             base.archivesName = name
         }
     }
@@ -67,6 +70,7 @@ dependencies {
     // Libs
     implementation(projects.lib.navigation.impl)
     implementation(projects.lib.bookImporter.impl)
+    implementation(projects.lib.crashReporter.impl)
 
     // Features
     implementation(projects.feature.splash.impl)

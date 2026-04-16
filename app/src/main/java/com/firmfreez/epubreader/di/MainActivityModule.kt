@@ -1,6 +1,6 @@
-package com.firmfreez.epubtesttask.di
+package com.firmfreez.epubreader.di
 
-import com.firmfreez.epubtesttask.MainActivityViewModel
+import com.firmfreez.epubreader.MainActivityViewModel
 import org.koin.dsl.module
 import org.koin.plugin.module.dsl.viewModel
 

@@ -40,6 +40,8 @@ include(
     ":lib:di:domain",
     ":lib:book-importer:api",
     ":lib:book-importer:impl",
+    ":lib:crash-reporter:api",
+    ":lib:crash-reporter:impl",
     ":feature:splash:api",
     ":feature:splash:impl",
     ":feature:home:api",

@@ -1,10 +1,10 @@
-package com.firmfreez.epubtesttask
+package com.firmfreez.epubreader
 
 import android.app.Application
 import com.firmfreez.app.common.domain.repositories.LoggerRepository
-import com.firmfreez.epubtesttask.android.BuildConfig
-import com.firmfreez.epubtesttask.di.AppGraph
-import com.firmfreez.epubtesttask.di.mainActivityModule
+import com.firmfreez.epubreader.android.BuildConfig
+import com.firmfreez.epubreader.di.AppGraph
+import com.firmfreez.epubreader.di.mainActivityModule
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

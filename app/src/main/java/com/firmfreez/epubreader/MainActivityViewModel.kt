@@ -1,4 +1,4 @@
-package com.firmfreez.epubtesttask
+package com.firmfreez.epubreader
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
