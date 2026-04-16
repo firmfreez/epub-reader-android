@@ -17,5 +17,7 @@ interface BooksLocalSource {
 
     suspend fun updateBook(book: BookEntity)
 
+    suspend fun isBookExists(fileHash: String): Boolean
+
     suspend fun deleteBook(id: String)
 }

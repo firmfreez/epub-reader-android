@@ -17,6 +17,8 @@ import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Provided
 import org.koin.core.annotation.Single
 import java.io.FileNotFoundException
+import java.io.InputStream
+import java.security.MessageDigest
 
 @Single(binds = [EpubUriAnalyzer::class])
 class EpubUriAnalyzerImpl(
@@ -47,9 +49,14 @@ class EpubUriAnalyzerImpl(
             author = null,
             description = null,
             coverPathInZip = null,
+            fileHash = null
         )
 
         try {
+            val fileHash = contentResolver.openInputStream(parsedUri)?.use { input ->
+                calculateSha256(input)
+            }
+
             val inputStream = contentResolver.openInputStream(parsedUri)
                 ?: return@withContext baseResult.withError(EpubUriAnalysisError.FILE_NOT_FOUND)
 
@@ -65,6 +72,7 @@ class EpubUriAnalyzerImpl(
                     author = parsedEpub.author,
                     description = parsedEpub.description,
                     coverPathInZip = parsedEpub.coverPathInZip,
+                    fileHash = fileHash
                 )
             }
         } catch (_: SecurityException) {
@@ -102,6 +110,21 @@ class EpubUriAnalyzerImpl(
             displayName = displayName,
             sizeBytes = sizeBytes,
         )
+    }
+
+    private fun calculateSha256(inputStream: InputStream): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+
+        while (true) {
+            val bytesRead = inputStream.read(buffer)
+            if (bytesRead <= 0) break
+            digest.update(buffer, 0, bytesRead)
+        }
+
+        return digest.digest().joinToString(separator = "") { byte ->
+            "%02x".format(byte)
+        }
     }
 
     private fun EpubUriAnalysis.withError(error: EpubUriAnalysisError): EpubUriAnalysis {

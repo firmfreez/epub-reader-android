@@ -23,6 +23,9 @@ interface BooksDao {
     @Query("SELECT lastLocatorJson FROM books WHERE id = :bookId")
     suspend fun getLastLocatorJson(bookId: String): String?
 
+    @Query("SELECT EXISTS(SELECT 1 FROM books WHERE fileHash = :fileHash)")
+    suspend fun isBookExists(fileHash: String): Boolean
+
     @Query("SELECT * FROM books WHERE id = :id LIMIT 1")
     suspend fun getById(id: String): BookEntity?
 

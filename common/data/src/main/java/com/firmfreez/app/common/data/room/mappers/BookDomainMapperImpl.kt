@@ -21,7 +21,8 @@ class BookDomainMapperImpl : BookDomainMapper {
             addedAtMillis = entity.addedAtMillis,
             lastOpenedAtMillis = entity.lastOpenedAtMillis,
             lastLocatorJson = entity.lastLocatorJson,
-            progress = entity.progress
+            progress = entity.progress,
+            fileHash = entity.fileHash
         )
     }
 
@@ -39,7 +40,8 @@ class BookDomainMapperImpl : BookDomainMapper {
             addedAtMillis = domain.addedAtMillis,
             lastOpenedAtMillis = domain.lastOpenedAtMillis,
             lastLocatorJson = domain.lastLocatorJson,
-            progress = domain.progress
+            progress = domain.progress,
+            fileHash = domain.fileHash
         )
     }
 }

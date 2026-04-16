@@ -56,7 +56,8 @@ class BookUiMapperImpl(
             addedAtMillis = now,
             lastOpenedAtMillis = null,
             lastLocatorJson = null,
-            progress = null
+            progress = null,
+            fileHash = fileHash
         )
     }
 

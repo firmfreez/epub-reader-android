@@ -8,6 +8,7 @@ import com.firmfreez.app.book.importer.api.models.EpubUriAnalysisError
 import com.firmfreez.app.common.domain.models.errors.AppThrowable
 import com.firmfreez.app.common.domain.models.result_wrapper.ResultOf
 import com.firmfreez.app.common.domain.models.result_wrapper.mapSuccess
+import com.firmfreez.app.common.domain.models.result_wrapper.toSuccessOrNull
 import com.firmfreez.app.common.domain.repositories.BooksRepository
 import com.firmfreez.app.home.impl.R
 import com.firmfreez.app.home.impl.mappers.BookUiMapper
@@ -37,6 +38,13 @@ class ImportBookUseCaseImpl(
             }
 
             return ResultOf.Fail(AppThrowable.custom(errorString))
+        }
+
+        val fileHash = analyzeData.fileHash ?: return ResultOf.Fail(AppThrowable.unknown())
+
+        val isBookExists = booksRepository.isBookExists(fileHash = fileHash).toSuccessOrNull { return ResultOf.Fail(it) } == true
+        if (isBookExists) {
+            return ResultOf.Fail(AppThrowable.custom(context.resources.getString(R.string.home_screen_picker_file_exists_error)))
         }
 
         val book = bookUiMapper.mapDomainFromAnalysis(dto = analyzeData).let {

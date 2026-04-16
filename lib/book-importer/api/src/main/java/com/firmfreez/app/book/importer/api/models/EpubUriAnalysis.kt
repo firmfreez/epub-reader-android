@@ -12,4 +12,5 @@ data class EpubUriAnalysis(
     val author: String?,
     val description: String?,
     val coverPathInZip: String?,
+    val fileHash: String?
 )

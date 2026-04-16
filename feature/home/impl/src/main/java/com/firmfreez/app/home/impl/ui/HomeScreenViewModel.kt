@@ -5,7 +5,6 @@ import android.net.Uri
 import com.firmfreez.app.common.domain.models.errors.AppThrowable
 import com.firmfreez.app.common.domain.models.result_wrapper.handleFail
 import com.firmfreez.app.common.domain.repositories.ErrorsRepository
-import com.firmfreez.app.common.domain.repositories.LoggerRepository
 import com.firmfreez.app.common.ui.view_model.BaseViewModel
 import com.firmfreez.app.di.domain.CoroutineDispatchersType
 import com.firmfreez.app.di.domain.CoroutineQualifiers
@@ -25,7 +24,6 @@ class HomeScreenViewModel(
     @Provided @param:CoroutineQualifiers(CoroutineDispatchersType.Io)
     private val dispatcherIo: CoroutineDispatcher,
     @Provided private val errorsRepository: ErrorsRepository,
-    @Provided private val loggerRepository: LoggerRepository,
 
     @Provided private val observeBooks: ObserveBooksUseCase,
     @Provided private val importBook: ImportBookUseCase,

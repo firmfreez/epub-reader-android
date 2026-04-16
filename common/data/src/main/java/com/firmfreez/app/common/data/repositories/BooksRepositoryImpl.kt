@@ -30,6 +30,10 @@ class BooksRepositoryImpl(
         localSource.getLocatorInfo(id = id)
     }
 
+    override suspend fun isBookExists(fileHash: String): ResultOf<Boolean> = resultOf {
+        localSource.isBookExists(fileHash = fileHash)
+    }
+
     override suspend fun setLastLocatorInfo(
         id: String,
         locatorJson: String,

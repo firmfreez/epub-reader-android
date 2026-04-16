@@ -7,6 +7,7 @@
     <string name="home_screen_picker_file_not_found_error">Ошибка! Файл не найден</string>
     <string name="home_screen_picker_file_access_denied_error">Ошибка! Доступ запрещен</string>
     <string name="home_screen_picker_file_invalid_file_error">Ошибка! Файл поврежден</string>
+    <string name="home_screen_picker_file_exists_error">Ошибка! Книга уже добавлена</string>
     <string name="home_screen_picker_file_unknown_error">Неизвестная ошибка!</string>
 
     <string name="home_screen_books_title">Мои книги</string>

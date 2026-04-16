@@ -21,6 +21,9 @@ class BooksDataBaseSourceImpl(
         return dao.getById(id = id)
     }
 
+    override suspend fun isBookExists(fileHash: String): Boolean {
+        return dao.isBookExists(fileHash = fileHash)
+    }
 
     override suspend fun updateReadingPosition(
         id: String,
