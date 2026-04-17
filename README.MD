@@ -1,6 +1,6 @@
 # EPUB Reader
 
-### Приложение уже находится на стадии модерации в RuStore
+### Приложение доступно в [RuStore](https://www.rustore.ru/catalog/app/com.firmfreez.epubreader.android).
 
 ## Описание
 
