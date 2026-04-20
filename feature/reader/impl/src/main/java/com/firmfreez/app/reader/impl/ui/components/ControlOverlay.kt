@@ -126,7 +126,7 @@ private fun BottomControlsBar(
     val spacing = LocalSpacing.current
 
     Surface(
-        modifier = modifier.alpha(if (isOverlayActive) 1f else 0.32f),
+        modifier = modifier.alpha(if (isOverlayActive) 1f else 0f),
         shape = RoundedCornerShape(corners.cornersX4),
         color = MaterialTheme.colorScheme.surface.copy(
             alpha = if (isOverlayActive) 0.96f else 0.82f,

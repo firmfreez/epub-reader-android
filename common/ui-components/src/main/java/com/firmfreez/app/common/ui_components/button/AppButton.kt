@@ -125,6 +125,16 @@ private fun AppOutlinedButton(
         ButtonColorsType.Error -> MaterialTheme.colorScheme.error
     }
 
+    val textColor = when (colors) {
+        ButtonColorsType.Transparent -> MaterialTheme.colorScheme.primary
+        ButtonColorsType.Primary -> MaterialTheme.colorScheme.primary
+        ButtonColorsType.Secondary -> MaterialTheme.colorScheme.secondary
+        ButtonColorsType.Tertiary -> MaterialTheme.colorScheme.tertiary
+        ButtonColorsType.Surface -> MaterialTheme.colorScheme.surface
+        ButtonColorsType.Error -> MaterialTheme.colorScheme.error
+    }
+
+
     val border = BorderStroke(
         width = AppButtonDefaults.strokeWidth,
         color = if (isEnabled) strokeColor else MaterialTheme.colorScheme.outline,
@@ -138,7 +148,7 @@ private fun AppOutlinedButton(
         contentPadding = contentPadding,
         border = border,
         colors = ButtonDefaults.buttonColors(
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            contentColor = textColor,
             containerColor = MaterialTheme.colorScheme.background,
         ),
         onClick = onClick,
