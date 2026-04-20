@@ -164,6 +164,7 @@ class ReaderScreenViewModel(
                             initialLocator = it.locator
                         )
                     }
+                    showOverlay()
                 }
         }
     }
