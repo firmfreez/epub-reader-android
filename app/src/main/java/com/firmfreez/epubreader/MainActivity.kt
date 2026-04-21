@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
@@ -148,16 +149,18 @@ class MainActivity : AppCompatActivity() {
     private fun configSplashScreen() {
         val splashScreen = installSplashScreen()
 
-        splashScreen.setOnExitAnimationListener { splash ->
-            val scaleX = ObjectAnimator.ofFloat(splash.iconView, View.SCALE_X, 1f, 1.5f, 1f)
-            val scaleY = ObjectAnimator.ofFloat(splash.iconView, View.SCALE_Y, 1f, 1.5f, 1f)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splash ->
+                val scaleX = ObjectAnimator.ofFloat(splash.iconView, View.SCALE_X, 1f, 1.5f, 1f)
+                val scaleY = ObjectAnimator.ofFloat(splash.iconView, View.SCALE_Y, 1f, 1.5f, 1f)
 
-            AnimatorSet().apply {
-                playTogether(scaleX, scaleY)
-                interpolator = AnticipateOvershootInterpolator()
-                duration = 1000L
-                doOnEnd { splash.remove() }
-                start()
+                AnimatorSet().apply {
+                    playTogether(scaleX, scaleY)
+                    interpolator = AnticipateOvershootInterpolator()
+                    duration = 1000L
+                    doOnEnd { splash.remove() }
+                    start()
+                }
             }
         }
     }
